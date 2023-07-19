@@ -1,100 +1,137 @@
 const express = require('express');
-// Import and require mysql2
 const mysql = require('mysql2');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
 
-// Express middleware
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-// Connect to database
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: '', // Provide your MySQL password
-  database: 'Employee_db',
+  password: 'Sq-283.1', 
+  database: 'employee_db',
 });
 
-// Check the database connection
 db.connect((err) => {
   if (err) {
     console.error('Error connecting to the database: ', err);
   } else {
-    console.log('Connected to the movies_db database.');
+    console.log('Connected to the employee_db database.');
   }
 });
 
 // Routes
 
-// Retrieve all movies and their reviews
-app.get('/api/movies', (req, res) => {
-  const sql = `
-    SELECT movies.id, movies.name, reviews.review
-    FROM movies
-    LEFT JOIN reviews ON movies.id = reviews.movie_id
-  `;
+// Retrieve all departments
+app.get('/api/departments', (req, res) => {
+  const sql = 'SELECT * FROM department';
 
   db.query(sql, (err, results) => {
     if (err) {
-      console.error('Error retrieving movies: ', err);
-      res.status(500).json({ error: 'Failed to retrieve movies.' });
+      console.error('Error retrieving departments: ', err);
+      res.status(500).json({ error: 'Failed to retrieve departments.' });
     } else {
       res.json(results);
     }
   });
 });
 
-// Add a new movie
-app.post('/api/add-movie', (req, res) => {
+// Retrieve all roles
+app.get('/api/roles', (req, res) => {
+  const sql = 'SELECT * FROM role';
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error('Error retrieving roles: ', err);
+      res.status(500).json({ error: 'Failed to retrieve roles.' });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+// Retrieve all employees
+app.get('/api/employees', (req, res) => {
+  const sql = 'SELECT * FROM employee';
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error('Error retrieving employees: ', err);
+      res.status(500).json({ error: 'Failed to retrieve employees.' });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+// Add a department
+app.post('/api/add-department', (req, res) => {
   const { name } = req.body;
 
-  const sql = 'INSERT INTO movies (name) VALUES (?)';
+  const sql = 'INSERT INTO department (name) VALUES (?)';
   const values = [name];
 
   db.query(sql, values, (err, result) => {
     if (err) {
-      console.error('Error adding movie: ', err);
-      res.status(500).json({ error: 'Failed to add movie.' });
+      console.error('Error adding department: ', err);
+      res.status(500).json({ error: 'Failed to add department.' });
     } else {
-      const movie = { id: result.insertId, name };
-      res.status(201).json(movie);
+      const department = { id: result.insertId, name };
+      res.status(201).json(department);
     }
   });
 });
 
-// Update a movie's review
-app.put('/api/update-review/:id', (req, res) => {
-  const { id } = req.params;
-  const { review } = req.body;
+// Add a role
+app.post('/api/add-role', (req, res) => {
+  const { title, salary, departmentId } = req.body;
 
-  const sql = 'UPDATE reviews SET review = ? WHERE movie_id = ?';
-  const values = [review, id];
+  const sql = 'INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)';
+  const values = [title, salary, departmentId];
 
   db.query(sql, values, (err, result) => {
     if (err) {
-      console.error('Error updating review: ', err);
-      res.status(500).json({ error: 'Failed to update review.' });
+      console.error('Error adding role: ', err);
+      res.status(500).json({ error: 'Failed to add role.' });
     } else {
-      res.sendStatus(204);
+      const role = { id: result.insertId, title, salary, departmentId };
+      res.status(201).json(role);
     }
   });
 });
 
-// Delete a movie
-app.delete('/api/movie/:id', (req, res) => {
-  const { id } = req.params;
+// Add an employee
+app.post('/api/add-employee', (req, res) => {
+  const { firstName, lastName, roleId, managerId } = req.body;
 
-  const sql = 'DELETE FROM movies WHERE id = ?';
-  const values = [id];
+  const sql = 'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)';
+  const values = [firstName, lastName, roleId, managerId];
 
   db.query(sql, values, (err, result) => {
     if (err) {
-      console.error('Error deleting movie: ', err);
-      res.status(500).json({ error: 'Failed to delete movie.' });
-    } else if (result.affectedRows === 0) {
-      res.status(404).json({ error: 'Movie not found.' });
+      console.error('Error adding employee: ', err);
+      res.status(500).json({ error: 'Failed to add employee.' });
+    } else {
+      const employee = { id: result.insertId, firstName, lastName, roleId, managerId };
+      res.status(201).json(employee);
+    }
+  });
+});
+
+// Update an employee's role
+app.put('/api/update-employee-role/:id', (req, res) => {
+  const { id } = req.params;
+  const { roleId } = req.body;
+
+  const sql = 'UPDATE employee SET role_id = ? WHERE id = ?';
+  const values = [roleId, id];
+
+  db.query(sql, values, (err, result) => {
+    if (err) {
+      console.error('Error updating employee role: ', err);
+      res.status(500).json({ error: 'Failed to update employee role.' });
     } else {
       res.sendStatus(204);
     }
