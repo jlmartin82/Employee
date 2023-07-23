@@ -300,5 +300,4 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-// Call the loadPrompt function once the server starts
 loadPrompt();

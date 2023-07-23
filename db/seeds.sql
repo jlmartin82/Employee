@@ -1,4 +1,3 @@
-
 INSERT INTO department (id, name) VALUES
   (1, 'Sales'),
   (2, 'Marketing'),
@@ -21,6 +20,9 @@ INSERT INTO employee (id, first_name, last_name, role_id, manager_id) VALUES
   (4, 'Sarah', 'Williams', 4, 3),
   (5, 'David', 'Brown', 5, NULL),
   (6, 'Emily', 'Jones', 6, 5);
+
+
+
 
 
 

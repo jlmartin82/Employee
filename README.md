@@ -1,70 +1,56 @@
-# SQL Challenge: Employee Tracker
+# Employee Management System
 
-This is a command-line application built using Node.js, Inquirer, and MySQL that allows you to manage a company's employee database. With this application, you can view and manage departments, roles, and employees in your company, helping you organize and plan your business efficiently.
+This is a simple Employee Management System built using Node.js, Express, and MySQL. It allows you to interact with an employee database and perform various operations like viewing employees, roles, departments, adding new employees, roles, departments, and updating an employee's role.
 
-## Walkthrough Video
+## Prerequisites
 
-Please check out the [walkthrough video](<link-to-video>) that demonstrates the functionality of the application and showcases all the acceptance criteria being met.
+Before running the application, ensure you have the following installed:
 
-## User Story
-
-As a business owner, I want to be able to view and manage the departments, roles, and employees in my company so that I can organize and plan my business effectively.
-
-## Acceptance Criteria
-
-- The command-line application accepts user input.
-- Upon starting the application, the following options are presented:
-  - View all departments
-  - View all roles
-  - View all employees
-  - Add a department
-  - Add a role
-  - Add an employee
-  - Update an employee role
-- When choosing to view all departments, a formatted table is displayed, showing department names and department IDs.
-- When choosing to view all roles, a formatted table is displayed, showing job titles, role IDs, the corresponding departments, and salaries for each role.
-- When choosing to view all employees, a formatted table is displayed, showing employee IDs, first names, last names, job titles, departments, salaries, and the managers they report to.
-- When choosing to add a department, the user is prompted to enter the name of the department, which is then added to the database.
-- When choosing to add a role, the user is prompted to enter the name, salary, and department for the role, which is then added to the database.
-- When choosing to add an employee, the user is prompted to enter the employee's first name, last name, role, and manager. The employee is then added to the database.
-- When choosing to update an employee role, the user is prompted to select an employee to update and their new role. The information is then updated in the database.
-
-## Getting Started
-
-To run the application, you'll need to perform the following steps:
-
-1. Install the required dependencies by running the command `npm install`.
-2. Make sure you have MySQL installed and running.
-3. Create the database schema by executing the SQL queries in the `schema.sql` file. This will set up the necessary tables.
-4. (Optional) If you want to pre-populate the database with sample data, you can execute the SQL queries in the `seeds.sql` file.
-5. Open the `connection.js` file and update the database credentials with your own. Note: Take care to keep your password secure.
-6. Run the application by executing the command `node index.js` or `npm start` in the terminal.
-
-Ensure you have npm package 'inquirer@8.2.4' installed by running the command `npm i inquirer@8.2.4` before running the application.
-
-## Database Schema
-
-The database schema consists of three tables: `department`, `role`, and `employee`. Here is the structure of each table:
-
-### department
-
-- id: INT PRIMARY KEY
-- name: VARCHAR(30) (to hold department name)
-
-### role
-
-- id: INT PRIMARY KEY
-- title: VARCHAR(30) (to hold role title)
-- salary: DECIMAL (to hold role salary)
-- department_id: INT (to hold reference to department the role belongs to)
-
-### employee
-
-- id: INT PRIMARY KEY
-- first_name: VARCHAR(30) (to hold employee first name)
-- last_name: VARCHAR(30) (to hold employee last name)
-- role_id: INT (to hold reference to employee role)
-- manager_id: INT (to hold reference to another employee that is the manager of the current employee, null if no manager)
+1. Node.js - [Download Node.js](https://nodejs.org/)
+2. MySQL Server - [Download MySQL Server](https://dev.mysql.com/downloads/mysql/)
+3.npm install
 
 
+##Walkthrough Video
 
+   
+   
+   
+
+## Setting up the Database
+
+1. Make sure you have MySQL server installed and running.
+2. Create a new database named "employee_db" in your MySQL server.
+3. Run the provided `seeds.sql` file against the "employee_db" database to populate it with initial data. You can do this using MySQL Workbench or the command line.
+
+## Usage
+
+To start the application, run the following command:
+
+
+node server.js
+
+
+This will start the server and display the message "Server running on port 3001" in the console.
+
+## Functionality
+
+When you run the application, you will be presented with a list of options to choose from:
+
+- View all employees
+- View all roles
+- View all departments
+- Add a department
+- Add a role
+- Add an employee
+- Update an employee's role
+
+Follow the on-screen prompts to interact with the database and perform the desired operation.
+
+## Contributing
+
+If you have suggestions for improvements or find any issues, feel free to open an issue or submit a pull request.
+
+Contributions are welcome! Please open a pull request if you have any improvements or bug fixes.
+
+## License
