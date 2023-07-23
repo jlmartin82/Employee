@@ -1,5 +1,6 @@
 const express = require('express');
 const mysql = require('mysql2');
+const inquirer = require('inquirer')
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -22,21 +23,99 @@ db.connect((err) => {
   }
 });
 
-// Routes
+function loadPrompt() {
+  inquirer.prompt([
+    {
+      type: "list",
+      name: "selection",
+      message: "Make a selection",
+      choices: [
+        {
+          name: "View all employees",
+          value: "view_employees",
+        },
+        {
+          name: "View all roles",
+          value: "view_roles",
+        },
+        {
+          name: "View all departments",
+          value: "view_departments",
+        },
+        {
+          name: "Retrieve all roles", 
+          value: "retrieve_roles",
+        },
+      ]
+    }
+  ]).then((answers) => {
+    console.log(answers);
+    switch (answers.selection) {
+      case "view_employees":
+        viewEmployees();
+        break;
+      case "view_roles":
+        viewRoles();
+        break;
+      case "view_departments":
+        viewDepartments();
+        break;
+      case "retrieve_roles": 
+        retrieveRoles();
+        break;
+    }
+  });
+}
 
-// Retrieve all departments
-app.get('/api/departments', (req, res) => {
+
+function viewEmployees() {
   const sql = 'SELECT * FROM department';
 
   db.query(sql, (err, results) => {
     if (err) {
       console.error('Error retrieving departments: ', err);
-      res.status(500).json({ error: 'Failed to retrieve departments.' });
+      
     } else {
-      res.json(results);
+      console.log(results);
     }
   });
-});
+}
+
+function viewRoles() {
+  const sql = 'SELECT * FROM role';
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error('Error retrieving roles: ', err);
+      
+    } else {
+      console.log(results);
+    }
+  });
+}
+
+function viewDepartments() {
+  const sql = 'SELECT * FROM department';
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error('Error retrieving departments: ', err);
+    } else {
+      console.log(results);
+    }
+  });
+}
+
+async function retrieveRoles() {
+  try {
+    const sql = 'SELECT * FROM role';
+    const [rows] = await db.query(sql);
+    console.log(rows);
+  } catch (err) {
+    console.error('Error retrieving roles: ', err);
+  }
+}
+
 
 // Retrieve all roles
 app.get('/api/roles', (req, res) => {
@@ -146,3 +225,5 @@ app.use((req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+loadPrompt()
