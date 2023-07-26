@@ -1,27 +1,12 @@
-const express = require("express");
-const mysql = require("mysql2");
+
+
 const inquirer = require("inquirer");
+const db = require("./config/connection")
 
-const PORT = process.env.PORT || 3001;
-const app = express();
 
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
 
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "Sq-283.1",
-  database: "employee_db",
-});
 
-db.connect((err) => {
-  if (err) {
-    console.error("Error connecting to the database: ", err);
-  } else {
-    console.log("Connected to the employee_db database.");
-  }
-});
+
 
 function loadPrompt() {
   inquirer
@@ -111,7 +96,8 @@ function viewEmployees() {
     if (err) {
       console.error("Error retrieving departments: ", err);
     } else {
-      console.log(results);
+      console.table(results);
+      loadPrompt()
     }
   });
 }
@@ -123,7 +109,8 @@ function viewRoles() {
     if (err) {
       console.error("Error retrieving roles: ", err);
     } else {
-      console.log(results);
+      console.table(results);
+      loadPrompt()
     }
   });
 }
@@ -135,7 +122,8 @@ function viewDepartments() {
     if (err) {
       console.error("Error retrieving departments: ", err);
     } else {
-      console.log(results);
+      console.table(results);
+      loadPrompt()
     }
   });
 }
@@ -147,7 +135,8 @@ async function retrieveRoles() {
     console.log(rows);
   } catch (err) {
     console.error("Error retrieving roles: ", err);
-  }
+    }
+    loadPrompt()
 }
 
 async function retrieveEmployees() {
@@ -158,6 +147,7 @@ async function retrieveEmployees() {
   } catch (err) {
     console.error("Error retrieving employees: ", err);
   }
+  loadPrompt()
 }
 
 async function addDepartment() {
@@ -180,6 +170,7 @@ async function addDepartment() {
   } catch (err) {
     console.error("Error adding department: ", err);
   }
+  loadPrompt()
 }
 
 async function addRole() {
@@ -292,12 +283,8 @@ async function updateEmployeeRole() {
   }
 }
 
-app.use((req, res) => {
-  res.status(404).end();
-});
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+
+
 
 loadPrompt();
