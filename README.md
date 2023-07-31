@@ -14,7 +14,8 @@ Before running the application, ensure you have the following installed:
 ## Walkthrough Video
 ! [Employee Tracker](../../../Desktop/EmpWalkthrough.webm)
 
-   
+[EmpWalkthrough.webm](https://github.com/jlmartin82/Employee/assets/129562637/9c0a08f4-d504-49f0-87ca-be87d05a2405)
+
    
    
 
