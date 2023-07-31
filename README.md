@@ -8,10 +8,11 @@ Before running the application, ensure you have the following installed:
 
 1. Node.js - [Download Node.js](https://nodejs.org/)
 2. MySQL Server - [Download MySQL Server](https://dev.mysql.com/downloads/mysql/)
-3.npm install
+3. npm install
 
 
 ## Walkthrough Video
+! [Employee Tracker](../../../Desktop/EmpWalkthrough.webm)
 
    
    
